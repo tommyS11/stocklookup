@@ -1,0 +1,37 @@
+import yfinance as yf
+import matplotlib.pyplot as plt
+
+def plot_stocks():
+    symbols = []
+    while True:
+        symbol = input("Enter a stock symbol (or press Enter to plot): ")
+        if symbol == "":
+            break
+        symbols.append(symbol)
+
+    if not symbols:
+        print("No symbols entered.")
+        return
+
+    start_date = input("Enter the start date (YYYY-MM-DD): ")
+    end_date = input("Enter the end date (YYYY-MM-DD): ")
+
+    # Retrieve stock data from Yahoo Finance for all symbols
+    stock_data = yf.download(symbols, start=start_date, end=end_date)['Close']
+
+    # Create the plot
+    plt.figure(figsize=(10, 6))
+
+    # Plot each stock's closing prices
+    for symbol in symbols:
+        plt.plot(stock_data[symbol], label=symbol)
+
+    plt.title("Stock Prices")
+    plt.xlabel("Date")
+    plt.ylabel("Price")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Example usage: Interactive plotting of stocks
+plot_stocks()
